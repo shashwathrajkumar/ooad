@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}" />
+</head>
+<body>
+    <!-- Taskbar -->
+    <div class="navbar">
+        <div class="logo">StockClub</div>
+        <div class="user-profile">
+            <span th:text="${username}">Username</span>
+            <img src="/images/default-profile.png" alt="Profile" class="profile-pic">
+        </div>
+    </div>
+
+    <!-- Team box -->
+    <div class="team-box">
+        <p>Team: <span th:text="${teamName}">Your Team</span></p>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard">
+        <h2>Live Stock Dashboard</h2>
+        <table class="stock-table">
+            <thead>
+                <tr>
+                    <th>Symbol</th>
+                    <th>Price (USD)</th>
+                </tr>
+            </thead>
+            <tbody id="stockTableBody">
+                <!-- This will be filled by JS -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        async function fetchStocks() {
+            const response = await fetch('/api/stocks/live');
+            const data = await response.json();
+
+            const tableBody = document.getElementById('stockTableBody');
+            tableBody.innerHTML = '';
+
+            data.forEach(stock => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${stock.symbol}</td><td>${stock.price.toFixed(2)}</td>`;
+                tableBody.appendChild(row);
+            });
+        }
+
+        fetchStocks(); // initial load
+        setInterval(fetchStocks, 10000); // every 10 seconds
+    </script>
+</body>
+</html>
