@@ -5,42 +5,54 @@ import org.springframework.web.client.RestTemplate;
 
 import com.example.demo.model.Stock;
 
-import org.springframework.beans.factory.annotation.Value;
+import io.github.cdimascio.dotenv.Dotenv;
+
 
 import java.util.*;
 
 
 @Service
 public class StockService {
-    @Value("${finnhub.api.key}")
-    private static String finnhubApiKey;
+    Dotenv dotenv = Dotenv.load();
+    private String finnhubApiKey= dotenv.get("FIN_API");
 
+    private final Map<String, Double> lastKnownPrices = new HashMap<>();
     
-    private static final String BASE_URL = "https://finnhub.io/api/v1/quote?symbol=%s&token=" + finnhubApiKey;
+    private final String BASE_URL = "https://finnhub.io/api/v1/quote?symbol=%s&token=" + finnhubApiKey;
 
     private static final List<String> STOCK_SYMBOLS = Arrays.asList(
             "AAPL", "MSFT", "GOOGL", "AMD", "TSLA", "META", "NFLX", "NVDA", "JPM", "INTC"
     );
 
     public List<Stock> getLiveStockPrices() {
-    RestTemplate restTemplate = new RestTemplate();
-    List<Stock> stockList = new ArrayList<>();
-
-    for (String symbol : STOCK_SYMBOLS) {
-        String url = String.format(BASE_URL, symbol);
-        try {
-            @SuppressWarnings("unchecked")
-            Map<String, Object> response = restTemplate.getForObject(url, Map.class);
-            if (response != null && response.containsKey("c")) {
-                Double currentPrice = (Double) response.get("c");
-                stockList.add(new Stock(symbol, currentPrice));
+        RestTemplate restTemplate = new RestTemplate();
+        List<Stock> stockList = new ArrayList<>();
+    
+        for (String symbol : STOCK_SYMBOLS) {
+            String url = String.format(BASE_URL, symbol);
+            try {
+                @SuppressWarnings("unchecked")
+                Map<String, Object> response = restTemplate.getForObject(url, Map.class);
+                if (response != null && response.containsKey("c")) {
+                    Double currentPrice = (Double) response.get("c");
+                    if (currentPrice != null && currentPrice > 0) {
+                        lastKnownPrices.put(symbol, currentPrice);
+                        stockList.add(new Stock(symbol, currentPrice));
+                        continue; // skip fallback logic
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Error retrieving stock data for " + symbol + ": " + e.getMessage());
             }
-        } catch (Exception e) {
-            stockList.add(new Stock(symbol, 0)); // Add with null price
+    
+            // Fallback: use last known price
+            Double fallbackPrice = lastKnownPrices.get(symbol);
+            if (fallbackPrice != null) {
+                stockList.add(new Stock(symbol, fallbackPrice));
+            }
         }
+    
+        return stockList;
     }
-
-    return stockList;
-}
-
+    
 }

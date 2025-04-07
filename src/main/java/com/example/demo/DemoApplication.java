@@ -15,10 +15,9 @@ public class DemoApplication {
 		Dotenv dotenv = Dotenv.load();
 
 		String dbPassword = dotenv.get("DB_PASSWORD");
-		String apiKey = dotenv.get("FIN_API");
 
 		// Optional: Check if values exist
-		if (dbPassword == null || apiKey == null) {
+		if (dbPassword == null) {
 			System.err.println("Missing environment variables! Check your .env file.");
 			System.exit(1);
 		}
@@ -26,7 +25,6 @@ public class DemoApplication {
 		// Load only dynamic properties (others stay in application.properties)
 		Map<String, Object> props = new HashMap<>();
 		props.put("spring.datasource.password", dbPassword);
-		props.put("finnhub.api.key", apiKey); // Use this custom key in your services
 
 		new SpringApplicationBuilder(DemoApplication.class)
 				.properties(props)
