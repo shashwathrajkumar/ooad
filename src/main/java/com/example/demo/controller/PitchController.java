@@ -3,7 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.PitchRequest;
 import com.example.demo.model.Pitch;
 import com.example.demo.repository.PitchRepository;
-import com.example.demo.repository.StockRepository;
+import com.example.demo.repository.StockEntityRepository;
 import com.example.demo.model.StockEntity;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +20,11 @@ public class PitchController {
     private PitchRepository pitchRepository;
 
     @Autowired
-    private StockRepository stockRepository;
+    private StockEntityRepository stockEntityRepository;
 
     @PostMapping("/create")
     public String createPitch(@RequestBody PitchRequest pitchRequest) {
-        Optional<StockEntity> stockOpt = stockRepository.findBySymbol(pitchRequest.getStockSymbol());
+        Optional<StockEntity> stockOpt = stockEntityRepository.findBySymbol(pitchRequest.getStockSymbol());
         if (stockOpt.isEmpty()) {
             return "Stock not found";
         }

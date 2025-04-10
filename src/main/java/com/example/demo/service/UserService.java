@@ -21,4 +21,8 @@ public class UserService {
         }
         return "No Team";
     }
+
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 }

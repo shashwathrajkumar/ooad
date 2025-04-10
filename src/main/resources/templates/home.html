@@ -8,6 +8,10 @@
     <!-- Taskbar -->
     <div class="navbar">
         <div class="logo">StockClub</div>
+        <div class="nav-links">
+            <a href="/home" class="nav-link">Home</a>
+            <a th:href="@{'/team/dashboard?teamId=' + ${teamId}}" class="nav-link">Dashboard</a>
+        </div>
         <div class="user-profile">
             <span th:text="${username}">Username</span>
             <img src="/images/default-profile.png" alt="Profile" class="profile-pic">
