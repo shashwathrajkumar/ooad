@@ -1,7 +1,7 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
-    background-color: #f1f3f6;
+    background-color: #f2f5f9; /* Light gray-blue */
     color: #2c3e50;
 }
 
@@ -9,7 +9,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #1a1f2b;
+    background-color: #111827; /* Updated */
     padding: 12px 25px;
     color: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -18,7 +18,7 @@ body {
 .logo {
     font-size: 24px;
     font-weight: 600;
-    color: #00ffcc;
+    color: #00d1b2; /* Updated */
     letter-spacing: 1px;
 }
 
@@ -37,7 +37,7 @@ body {
 }
 
 .nav-link:hover {
-    color: #00ffcc;
+    color: #00d1b2; /* Updated */
 }
 
 .container {
@@ -52,8 +52,8 @@ body {
 .container h2 {
     font-size: 26px;
     margin-bottom: 20px;
-    color: #2c3e50;
-    border-left: 5px solid #2980b9;
+    color: #1e3a8a; /* Updated */
+    border-left: 5px solid #00b4d8; /* Updated */
     padding-left: 12px;
 }
 
@@ -68,14 +68,15 @@ body {
     margin-top: 20px;
 }
 
-.stock-table th, .stock-table td {
+.stock-table th,
+.stock-table td {
     padding: 14px;
     text-align: left;
     border-bottom: 1px solid #e0e0e0;
 }
 
 .stock-table th {
-    background-color: #2d3436;
+    background-color: #1f2937; /* Updated */
     color: white;
     font-size: 14px;
     text-transform: uppercase;
@@ -87,4 +88,5 @@ body {
 
 .stock-table td:last-child {
     font-weight: bold;
+    color: #18a558; /* Updated for PNL */
 }

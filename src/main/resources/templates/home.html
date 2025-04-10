@@ -14,22 +14,43 @@
         </div>
         <div class="user-profile">
             <span th:text="${username}">Username</span>
-            <img src="/images/default-profile.png" alt="Profile" class="profile-pic">
+            <img src="/images/user-profile.png" alt="Profile" class="profile-pic">
         </div>
     </div>
 
-    <!-- Team box -->
-    <div class="team-box">
-        <p>Team: <span th:text="${teamName}">Your Team</span></p>
-    </div>
+    <!-- Start Wrapper -->
+    <div class="wrapper">
 
+        <!-- Team box -->
+        <div class="team-box">
+            <p>Team: <span th:text="${teamName}">Your Team</span></p>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="dashboard">
+            <h2>Live Stock Dashboard</h2>
+            <table class="stock-table">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Price (USD)</th>
+                    </tr>
+                </thead>
+                <tbody id="stockTableBody">
+                </tbody>
+            </table>
+            <button class="make-pitch-btn" onclick="togglePitchForm()">Make Pitch</button>
+        </div>
+    </div>
+    <!-- End Wrapper -->
+
+    <!-- Pitch form stays outside to avoid margin cut-off -->
     <div id="pitchForm" class="pitch-form-container">
         <button class="close-btn" onclick="togglePitchForm()">✕</button>
         <h3>Create a Pitch</h3>
-        <form id = "pitchFormElement">
+        <form id="pitchFormElement">
             <label for="stock">Stock:</label>
-            <select name="stock" id="stock">
-            </select>
+            <select name="stock" id="stock"></select>
 
             <label for="quantity">Quantity:</label>
             <input type="number" name="quantity" id="quantity" required>
@@ -47,21 +68,6 @@
         </form>
     </div>
 
-    <!-- Dashboard -->
-    <div class="dashboard">
-        <h2>Live Stock Dashboard</h2>
-        <table class="stock-table">
-            <thead>
-                <tr>
-                    <th>Symbol</th>
-                    <th>Price (USD)</th>
-                </tr>
-            </thead>
-            <tbody id="stockTableBody">
-            </tbody>
-        </table>
-        <button class="make-pitch-btn" onclick="togglePitchForm()">Make Pitch</button>
-    </div>
     <script th:src="@{/js/pitch-form.js}"></script>
 </body>
 </html>
