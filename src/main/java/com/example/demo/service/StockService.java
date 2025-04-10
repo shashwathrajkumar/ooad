@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.demo.model.Stock;
@@ -34,17 +36,26 @@ public class StockService {
                 @SuppressWarnings("unchecked")
                 Map<String, Object> response = restTemplate.getForObject(url, Map.class);
                 if (response != null && response.containsKey("c")) {
-                    Double currentPrice = (Double) response.get("c");
+                    // Double currentPrice = (Double) response.get("c");
+                    Object priceObj = response.get("c");
+                    Double currentPrice = null;
+                    if (priceObj instanceof Number) {
+                        currentPrice = ((Number) priceObj).doubleValue();
+                    }
                     if (currentPrice != null && currentPrice > 0) {
                         lastKnownPrices.put(symbol, currentPrice);
                         stockList.add(new Stock(symbol, currentPrice));
                         continue; // skip fallback logic
                     }
                 }
+            } catch (HttpClientErrorException e) {
+                if (!e.getStatusCode().equals(HttpStatus.TOO_MANY_REQUESTS)) {
+                    System.out.println("HTTP error for " + symbol + ": " + e.getStatusCode() + " - " + e.getMessage());
+                }
             } catch (Exception e) {
-                System.out.println("Error retrieving stock data for " + symbol + ": " + e.getMessage());
+                System.out.println("General error for " + symbol + ": " + e.getMessage());
             }
-    
+        
             // Fallback: use last known price
             Double fallbackPrice = lastKnownPrices.get(symbol);
             if (fallbackPrice != null) {
