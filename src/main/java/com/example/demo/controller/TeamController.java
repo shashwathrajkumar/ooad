@@ -1,17 +1,18 @@
 package com.example.demo.controller;
 
+import com.example.demo.service.DashboardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.model.Team;
 import com.example.demo.model.User;
 import com.example.demo.repository.TeamRepository;
 import com.example.demo.repository.UserRepository;
 
+@Controller
+@RequestMapping("/team")
 public class TeamController {
     @Autowired
     private TeamRepository teamRepository;
@@ -35,5 +36,14 @@ public class TeamController {
             return "redirect:/";
         }
         return "register";
+    }
+
+    @Autowired
+    private DashboardService dashboardService;
+
+    @GetMapping("/dashboard")
+    public String showDashboard(@RequestParam("teamId") int teamId, Model model) {
+        model.addAttribute("dashboard", dashboardService.getDashboardData(teamId));
+        return "dashboard"; // This refers to dashboard.html
     }
 }

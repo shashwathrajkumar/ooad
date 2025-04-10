@@ -103,3 +103,21 @@ body {
         padding: 10px;
     }
 }
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.nav-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    font-size: 16px;
+}
+
+.nav-link:hover {
+    color: #00ffcc;
+}

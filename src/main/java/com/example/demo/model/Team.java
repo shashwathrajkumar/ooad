@@ -13,11 +13,13 @@ public class Team {
 
     private String name;
 
-    // Optional: link to users (useful if you want to fetch members of a team)
+    @Column(name = "initial_investment")
+    private double initialInvestment;
+
     @OneToMany(mappedBy = "team")
     private List<User> members;
 
-    // Getters and setters
+    // Getters and Setters
 
     public int getId() {
         return id;
@@ -33,6 +35,14 @@ public class Team {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public double getInitialInvestment() {
+        return initialInvestment;
+    }
+
+    public void setInitialInvestment(double initialInvestment) {
+        this.initialInvestment = initialInvestment;
     }
 
     public List<User> getMembers() {

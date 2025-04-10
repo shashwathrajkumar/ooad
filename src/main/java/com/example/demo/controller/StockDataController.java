@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.StockEntity;
+import com.example.demo.model.Stock;
 import com.example.demo.repository.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +15,7 @@ public class StockDataController {
     private StockRepository stockRepository;
 
     @GetMapping("/api/stocks/all")
-    public List<StockEntity> getAllStocks() {
+    public List<Stock> getAllStocks() {
         return stockRepository.findAll();
     }
 }

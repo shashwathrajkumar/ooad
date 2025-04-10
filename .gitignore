@@ -44,7 +44,7 @@ logs/
 *.log.*
 
 # Environment/Secrets
-.env
+../.env
 *.env
 application-local.properties
 application-secrets.properties

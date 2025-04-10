@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Team Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+</head>
+<body>
+
+<div class="navbar">
+    <div class="logo">StockClub</div>
+    <div class="nav-links">
+        <a href="/home" class="nav-link">Home</a>
+        <a th:href="@{'/team/dashboard?teamId=' + ${teamId}}" class="nav-link">Dashboard</a>
+    </div>
+</div>
+
+<div class="container">
+    <h2 th:text="'Dashboard for ' + ${dashboard.teamName}">Team Dashboard</h2>
+
+    <div class="summary">
+        <p><strong>Wallet:</strong> $<span th:text="${dashboard.initialInvestment}"></span></p>
+        <p><strong>Total Invested:</strong> $<span th:text="${dashboard.totalInvested}"></span></p>
+        <p><strong>Current Portfolio Value:</strong> $<span th:text="${dashboard.currentValue}"></span></p>
+    </div>
+
+    <table class="stock-table">
+        <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Quantity</th>
+            <th>Buy Price</th>
+            <th>Current Price</th>
+            <th>Value</th>
+            <th>PnL</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="stock : ${dashboard.holdings}">
+            <td th:text="${stock['symbol']}">AAPL</td>
+            <td th:text="${stock['quantity']}">10</td>
+            <td th:text="${stock['buyPrice']}">150</td>
+            <td th:text="${stock['currentPrice']}">172</td>
+            <td th:text="${stock['value']}">1720</td>
+            <td th:text="${stock['pnl']}"
+                th:style="'color:' + (${stock['pnl']} >= 0 ? '#27ae60' : '#c0392b')">+100</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
