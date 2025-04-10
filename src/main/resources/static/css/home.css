@@ -103,3 +103,74 @@ body {
         padding: 10px;
     }
 }
+
+.make-pitch-btn {
+    margin: 20px;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.pitch-form-container {
+    position: fixed;
+    top: 0;
+    right: -420px;
+    height: 100%;
+    width: 400px;
+    background-color: white;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    transition: right 0.3s ease;
+    z-index: 999;
+}
+
+.pitch-form-container.active {
+    right: 0;
+}
+
+.pitch-form-container h3 {
+    margin-top: 0;
+}
+
+.pitch-form-container label {
+    display: block;
+    margin-top: 10px;
+}
+
+.pitch-form-container select,
+.pitch-form-container input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.pitch-form-container button {
+    margin-top: 20px;
+    background-color: #2ecc71;
+    border: none;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    float: right;
+    cursor: pointer;
+}

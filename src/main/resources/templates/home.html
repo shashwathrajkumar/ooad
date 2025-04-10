@@ -1,140 +1,8 @@
-<!-- <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Home</title>
-    <link rel="stylesheet" th:href="@{/css/home.css}" />
-</head>
-<body>
-    
-    <div class="navbar">
-        <div class="logo">StockClub</div>
-        <div class="user-profile">
-            <span th:text="${username}">Username</span>
-            <img src="/images/default-profile.png" alt="Profile" class="profile-pic">
-        </div>
-    </div>
-
-    
-    <div class="team-box">
-        <p>Team: <span th:text="${teamName}">Your Team</span></p>
-    </div>
-
-    
-    <div class="dashboard">
-        <h2>Live Stock Dashboard</h2>
-        <table class="stock-table">
-            <thead>
-                <tr>
-                    <th>Symbol</th>
-                    <th>Price (USD)</th>
-                </tr>
-            </thead>
-            <tbody id="stockTableBody">
-                
-            </tbody>
-        </table>
-    </div>
-
-    <script>
-        async function fetchStocks() {
-            const response = await fetch('/api/stocks/live');
-            const data = await response.json();
-
-            const tableBody = document.getElementById('stockTableBody');
-            tableBody.innerHTML = '';
-
-            data.forEach(stock => {
-                const row = document.createElement('tr');
-                row.innerHTML = `<td>${stock.symbol}</td><td>${stock.price.toFixed(2)}</td>`;
-                tableBody.appendChild(row);
-            });
-        }
-
-        fetchStocks(); // initial load
-        setInterval(fetchStocks, 10000); // every 10 seconds
-    </script>
-</body>
-</html> -->
-
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Home</title>
     <link rel="stylesheet" th:href="@{/css/home.css}" />
-    <style>
-        /* Add this to support the pitch sidebar UI */
-        .make-pitch-btn {
-            margin: 20px;
-            padding: 10px 20px;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden; /* Prevent horizontal scroll bar when sidebar is off-screen */
-        }
-
-        .pitch-form-container {
-            position: fixed;
-            top: 0;
-            right: -420px;
-            height: 100%;
-            width: 400px;
-            background-color: white;
-            box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            transition: right 0.3s ease;
-            z-index: 999;
-        }
-
-        .pitch-form-container.active {
-            right: 0;
-        }
-
-        .pitch-form-container h3 {
-            margin-top: 0;
-        }
-
-        .pitch-form-container label {
-            display: block;
-            margin-top: 10px;
-        }
-
-        .pitch-form-container select,
-        .pitch-form-container input {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        .pitch-form-container button {
-            margin-top: 20px;
-            background-color: #2ecc71;
-            border: none;
-            color: white;
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 18px;
-            float: right;
-            cursor: pointer;
-        }
-    </style>
 </head>
 <body>
     <!-- Taskbar -->
@@ -154,7 +22,7 @@
     <div id="pitchForm" class="pitch-form-container">
         <button class="close-btn" onclick="togglePitchForm()">✕</button>
         <h3>Create a Pitch</h3>
-        <form action="/pitch/create" method="post">
+        <form id = "pitchFormElement">
             <label for="stock">Stock:</label>
             <select name="stock" id="stock">
             </select>
@@ -190,48 +58,6 @@
         </table>
         <button class="make-pitch-btn" onclick="togglePitchForm()">Make Pitch</button>
     </div>
-
-
-    <script>
-        async function fetchStocks() {
-            const response = await fetch('/api/stocks/live');
-            const data = await response.json();
-
-            const tableBody = document.getElementById('stockTableBody');
-            tableBody.innerHTML = '';
-
-            data.forEach(stock => {
-                const row = document.createElement('tr');
-                row.innerHTML = `<td>${stock.symbol}</td><td>${stock.price.toFixed(2)}</td>`;
-                tableBody.appendChild(row);
-            });
-        }
-
-        async function populateStockDropdown() {
-            const response = await fetch('/api/stocks/all');
-            const stocks = await response.json();
-            const dropdown = document.getElementById('stock');
-            dropdown.innerHTML = ''; // clear any old options
-
-            stocks.forEach(stock => {
-                const option = document.createElement('option');
-                option.value = stock.symbol;
-                option.text = stock.symbol + ' - ' + stock.name;
-                dropdown.appendChild(option);
-            });
-        }
-
-
-        fetchStocks(); // initial load
-        setInterval(fetchStocks, 10000); // every 10 seconds
-
-        function togglePitchForm() {
-            const form = document.getElementById('pitchForm');
-            form.classList.toggle('active');
-            if (form.classList.contains('active')) {
-                populateStockDropdown();
-            }
-        }
-    </script>
+    <script th:src="@{/js/pitch-form.js}"></script>
 </body>
 </html>
