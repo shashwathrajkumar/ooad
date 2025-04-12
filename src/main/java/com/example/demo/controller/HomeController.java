@@ -26,6 +26,7 @@ public class HomeController {
         if (username != null) {
             User user = userService.getUserByUsername(username); // ✅ Get full User
             if (user != null) {
+                model.addAttribute("user", user);
                 model.addAttribute("username", user.getUsername());
                 model.addAttribute("teamName", user.getTeam().getName());
                 model.addAttribute("teamId", user.getTeam().getId()); // ✅ Pass teamId

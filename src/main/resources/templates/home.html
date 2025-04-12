@@ -5,6 +5,8 @@
     <link rel="stylesheet" th:href="@{/css/home.css}" />
 </head>
 <body>
+    <input type="hidden" id="userId" th:value="${user.id}" />
+
     <!-- Taskbar -->
     <div class="navbar">
         <div class="logo">StockClub</div>
@@ -40,6 +42,8 @@
                 </tbody>
             </table>
             <button class="make-pitch-btn" onclick="togglePitchForm()">Make Pitch</button>
+            <button class="pitch-requests-btn" onclick="togglePitchRequests()">Pitch Requests</button>
+            <button class="pending-requests-btn" onclick="togglePendingRequests()">Pending Requests</button>
         </div>
     </div>
     <!-- End Wrapper -->
@@ -68,6 +72,25 @@
         </form>
     </div>
 
+    <div id="pitchRequests" class="pitch-requests-container">
+    <button class="close-btn" onclick="togglePitchRequests()">✕</button>
+    <h3>Pitch Requests</h3>
+    <div id="pitchRequestsList">
+        <!-- JS will inject pitch request cards here -->
+    </div>
+
+    <!-- Pending Requests -->
+    <div id="pendingRequests" class="pending-requests-container">
+        <button class="close-btn" onclick="togglePendingRequests()">✕</button>
+        <h3>Pending Requests</h3>
+        <div id="pendingRequestsList">
+            <!-- JS will inject pending requests here -->
+        </div>
+    </div>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script th:src="@{/js/pitch-form.js}"></script>
+
 </body>
 </html>

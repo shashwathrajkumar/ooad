@@ -14,6 +14,11 @@ public class Pitch {
     @Column(name = "user_id")
     private int userId;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    private User user;
+
+
     @Column(name = "team_id")
     private int teamId;
 
@@ -42,6 +47,14 @@ public class Pitch {
         this.price = price;
         this.status = "PENDING";
         this.createdAt = LocalDateTime.now();
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     // Getters and Setters (You can generate them with your IDE)
