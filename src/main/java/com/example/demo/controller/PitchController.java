@@ -7,6 +7,10 @@ import com.example.demo.repository.PitchRepository;
 import com.example.demo.repository.StockEntityRepository;
 import com.example.demo.model.StockEntity;
 import com.example.demo.service.PitchService;
+import com.example.demo.model.User; // Ensure this matches the actual package of the User class
+import com.example.demo.repository.UserRepository; // Ensure this matches the actual package of the UserRepository interface
+
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,21 +25,38 @@ import java.util.List;
 @RequestMapping("/pitch")
 public class PitchController {
 
+    @Autowired
+    private UserRepository userRepository;
+
     // Removed duplicate declaration of pitchRepository
 
     @Autowired
     private StockEntityRepository stockEntityRepository;
-
+    
     @PostMapping("/create")
-    public String createPitch(@RequestBody PitchRequest pitchRequest) {
-        Optional<StockEntity> stockOpt = stockEntityRepository.findBySymbol(pitchRequest.getStockSymbol());
-        if (stockOpt.isEmpty()) {
-            return "Stock not found";
+    public ResponseEntity<String> createPitch(@RequestBody PitchRequest pitchRequest, HttpSession session) {
+        // 1. Get username from session
+        String username = (String) session.getAttribute("username");
+        if (username == null) {
+            return ResponseEntity.status(401).body("User not logged in.");
         }
 
+        // 2. Fetch the user
+        User user = userRepository.findByUsername(username); // or use userService if preferred
+        if (user == null) {
+            return ResponseEntity.status(404).body("User not found.");
+        }
+
+        // 3. Fetch the stock
+        Optional<StockEntity> stockOpt = stockEntityRepository.findBySymbol(pitchRequest.getStockSymbol());
+        if (stockOpt.isEmpty()) {
+            return ResponseEntity.status(404).body("Stock not found.");
+        }
+
+        // 4. Create and save pitch
         Pitch pitch = new Pitch();
-        pitch.setUserId(1); // Replace with actual logged-in user ID logic
-        pitch.setTeamId(1); // Replace with actual team ID logic
+        pitch.setUserId(user.getId());
+        pitch.setTeamId(user.getTeam().getId());
         pitch.setStock(stockOpt.get());
         pitch.setAction(pitchRequest.getAction());
         pitch.setQty(pitchRequest.getQuantity());
@@ -44,8 +65,7 @@ public class PitchController {
         pitch.setCreatedAt(LocalDateTime.now());
 
         pitchRepository.save(pitch);
-
-        return "Pitch submitted successfully";
+        return ResponseEntity.ok("Pitch submitted successfully.");
     }
 
     @Autowired
