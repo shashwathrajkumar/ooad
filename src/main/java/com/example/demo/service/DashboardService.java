@@ -44,6 +44,7 @@ public class DashboardService {
             Map<String, Object> stock = new HashMap<>();
             stock.put("symbol", holding.getStock().getSymbol());
             stock.put("quantity", quantity);
+            stock.put("buyPrice", holding.getBuyPrice());
             stock.put("currentPrice", price);
             stock.put("invested", invested);
             stock.put("value", value);
