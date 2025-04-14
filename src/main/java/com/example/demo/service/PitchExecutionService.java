@@ -28,10 +28,7 @@ public class PitchExecutionService {
         Team team = teamRepository.findById(teamId.intValue()).orElseThrow(() -> new RuntimeException("Team not found"));
 
         double marketPrice = stockEntity.getPrice();
-        System.out.println("Market price of " + stockEntity.getSymbol() + " is: " + marketPrice);
-        System.out.println("Pitch price is: " + pitch.getPrice());
-
-
+   
         TeamStockHolding holding = holdingRepository.findByTeamAndStock(team, stock);
 
         if (pitch.getAction().equalsIgnoreCase("BUY") && marketPrice <= pitch.getPrice()) {
