@@ -12,8 +12,10 @@ public class PitchResponseDTO {
     private String action;
     private String status;
     private LocalDateTime createdAt;
+    private Long id;
 
     public PitchResponseDTO(Pitch pitch) {
+        this.id = pitch.getId();
         this.username = pitch.getUser().getUsername();
         this.stockSymbol = pitch.getStock().getSymbol(); // assuming getStock() gives Stock object
         this.quantity = pitch.getQty();
@@ -21,6 +23,10 @@ public class PitchResponseDTO {
         this.action = pitch.getAction();
         this.status = pitch.getStatus();
         this.createdAt = pitch.getCreatedAt();
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getStatus() {

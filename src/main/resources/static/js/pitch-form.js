@@ -131,10 +131,10 @@ function togglePendingRequests() {
 // Fetch Pending Requests for Team Members excluding the current user
 async function fetchPendingRequests() {
     const userId = document.getElementById('userId').value; // Get the logged-in user's ID (hidden input or global variable)
-    
     try {
         const response = await axios.get('http://localhost:8080/pitch/pending', { params: { userId } });
         const requests = response.data;
+        console.log('Response from /pitch/pending:', requests);
         displayPendingRequests(requests);
     } catch (error) {
         console.error('Error fetching pending requests:', error);
@@ -143,7 +143,6 @@ async function fetchPendingRequests() {
 function displayPendingRequests(requests) {
     const pendingRequestsList = document.getElementById('pendingRequestsList');
     pendingRequestsList.innerHTML = ''; // Clear previous requests
-    
     if (requests.length === 0) {
         pendingRequestsList.innerHTML = '<p>No pending requests</p>';
     } else {
@@ -151,6 +150,9 @@ function displayPendingRequests(requests) {
             const requestCard = document.createElement('div');
             requestCard.classList.add('pending-request-card');
             requestCard.setAttribute('data-id', request.id); // Add unique ID for each request
+            console.log(request.id);
+
+
             requestCard.innerHTML = `
                 <strong>User:</strong> ${request.username}<br> <!-- Corrected here -->
                 <strong>Stock:</strong> ${request.stockSymbol}<br>
@@ -170,19 +172,60 @@ function displayPendingRequests(requests) {
 }
 
 // Handle Accept/Reject actions (only remove from slider, no backend change)
-async function handleAcceptReject(pitchId, action) {
-    // Remove the request from the slider (UI)
-    const requestCard = document.querySelector(`#pendingRequestsList div[data-id="${pitchId}"]`);
-    if (requestCard) {
-        requestCard.remove();
-    }
+// async function handleAcceptReject(pitchId, action) {
+//     // Remove the request from the slider (UI)
+//     const requestCard = document.querySelector(`#pendingRequestsList div[data-id="${pitchId}"]`);
+//     if (requestCard) {
+//         requestCard.remove();
+//     }
 
-    // If needed, you can send the accept/reject info to the backend for future handling (status update)
-    const userId = document.getElementById('userId').value; // Get the logged-in user's ID
+//     // If needed, you can send the accept/reject info to the backend for future handling (status update)
+//     const userId = document.getElementById('userId').value; // Get the logged-in user's ID
     
+//     try {
+//         await axios.post('/api/pitch/accept-reject', { pitchId, userId, action });
+//     } catch (error) {
+//         console.error('Error accepting/rejecting request:', error);
+//     }
+// }
+
+async function handleAcceptReject(pitchId, action) {
+    const userId = document.getElementById('userId').value;
+    // Remove UI element
+    const requestCard = document.querySelector(`#pendingRequestsList div[data-id="${pitchId}"]`);
+    if (requestCard) requestCard.remove();
     try {
-        await axios.post('/api/pitch/accept-reject', { pitchId, userId, action });
+        // Record vote in vote table
+        console.log(pitchId);
+        await axios.post('/api/vote', {
+            pitchId: pitchId,
+            userId: userId,
+            vote: action.toUpperCase() // "ACCEPT" or "REJECT"
+        });
+
+        // Optional: Also notify backend to change pitch status if needed
+        await axios.post('/api/pitch/accept-reject', {
+            pitchId: pitchId,
+            userId: userId,
+            action: action
+        });
+
     } catch (error) {
-        console.error('Error accepting/rejecting request:', error);
+        console.error('Error while processing vote:', error);
     }
 }
+
+function toggleProfileMenu() {
+    const menu = document.getElementById("profileMenu");
+    menu.classList.toggle("hidden");
+}
+
+// Optional: Hide menu if clicked outside
+document.addEventListener("click", function (event) {
+    const profile = document.querySelector(".user-profile");
+    const menu = document.getElementById("profileMenu");
+
+    if (!profile.contains(event.target)) {
+        menu.classList.add("hidden");
+    }
+});

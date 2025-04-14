@@ -2,13 +2,16 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.PitchRequest;
 import com.example.demo.dto.PitchResponseDTO;
+import com.example.demo.dto.VoteRequest;
 import com.example.demo.model.Pitch;
 import com.example.demo.repository.PitchRepository;
 import com.example.demo.repository.StockEntityRepository;
 import com.example.demo.model.StockEntity;
 import com.example.demo.service.PitchService;
 import com.example.demo.model.User; // Ensure this matches the actual package of the User class
+import com.example.demo.model.Vote;
 import com.example.demo.repository.UserRepository; // Ensure this matches the actual package of the UserRepository interface
+import com.example.demo.repository.VoteRepository;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -55,7 +58,7 @@ public class PitchController {
 
         // 4. Create and save pitch
         Pitch pitch = new Pitch();
-        pitch.setUserId(user.getId());
+        pitch.setUserId((long) user.getId());
         pitch.setTeamId(user.getTeam().getId());
         pitch.setStock(stockOpt.get());
         pitch.setAction(pitchRequest.getAction());
@@ -70,6 +73,9 @@ public class PitchController {
 
     @Autowired
     private PitchRepository pitchRepository;
+
+    @Autowired
+    private VoteRepository voteRepository;
     
     @GetMapping("/all")
     public ResponseEntity<List<PitchResponseDTO>> getAllPitches() {
@@ -85,14 +91,27 @@ public class PitchController {
 
     @GetMapping("/pending")
     public ResponseEntity<List<PitchResponseDTO>> getPendingRequests(@RequestParam Long userId) {
-        System.out.println("Received userId: " + userId);
         // Fetch pending requests for users in the same team, excluding the current user
         List<Pitch> pitches = pitchService.getPendingRequestsForTeammates(userId);
         List<PitchResponseDTO> response = pitches.stream()
                 .map(PitchResponseDTO::new)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(response);
-}
+    }
+
+    // @PostMapping("/api/vote")
+    // public ResponseEntity<?> castVote(@RequestBody VoteRequest voteRequest) {
+    //     Vote vote = new Vote();
+    //     vote.setPitchId(voteRequest.getPitchId());
+    //     vote.setUserId(voteRequest.getUserId());
+    //     vote.setVote(voteRequest.getVote()); // "ACCEPT" or "REJECT"
+    //     vote.setCreatedAt(LocalDateTime.now());
+
+    //     voteRepository.save(vote);
+    //     pitchService.processVoteAndCheckMajority(voteRequest.getPitchId(), voteRequest.getUserId(), voteRequest.getVote());
+    //     return ResponseEntity.ok().build();
+    // }
+
 
 
 }

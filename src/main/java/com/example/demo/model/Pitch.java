@@ -9,10 +9,10 @@ public class Pitch {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name = "user_id")
-    private int userId;
+    private Long userId;
 
     @ManyToOne
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
@@ -20,7 +20,7 @@ public class Pitch {
 
 
     @Column(name = "team_id")
-    private int teamId;
+    private Long teamId;
 
     @ManyToOne
     @JoinColumn(name = "stock_id", referencedColumnName = "id")
@@ -38,7 +38,7 @@ public class Pitch {
     // Constructors
     public Pitch() {}
 
-    public Pitch(int userId, int teamId, StockEntity stock, String action, int qty, double price) {
+    public Pitch(Long userId, Long teamId, StockEntity stock, String action, int qty, double price) {
         this.userId = userId;
         this.teamId = teamId;
         this.stock = stock;
@@ -58,15 +58,15 @@ public class Pitch {
     }
 
     // Getters and Setters (You can generate them with your IDE)
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public int getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public int getTeamId() {
+    public Long getTeamId() {
         return teamId;
     }
 
@@ -94,15 +94,15 @@ public class Pitch {
         return createdAt;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public void setTeamId(int teamId) {
+    public void setTeamId(Long teamId) {
         this.teamId = teamId;
     }
 

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface PitchRepository extends JpaRepository<Pitch, Integer> {
+public interface PitchRepository extends JpaRepository<Pitch, Long> {
     List<Pitch> findAllByOrderByCreatedAtDesc();
     @Query("SELECT p FROM Pitch p WHERE p.user.id IN :userIds AND p.status = 'PENDING'")
     List<Pitch> findPendingRequestsForUserIds(@Param("userIds") List<Long> userIds);
