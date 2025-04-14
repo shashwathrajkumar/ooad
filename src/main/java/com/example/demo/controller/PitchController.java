@@ -2,16 +2,14 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.PitchRequest;
 import com.example.demo.dto.PitchResponseDTO;
-import com.example.demo.dto.VoteRequest;
 import com.example.demo.model.Pitch;
 import com.example.demo.repository.PitchRepository;
 import com.example.demo.repository.StockEntityRepository;
 import com.example.demo.model.StockEntity;
-import com.example.demo.service.PitchService;
+// Ensure the correct package path for PitchService
+import com.example.demo.service.PitchService; // Update this path if PitchService is in a different package
 import com.example.demo.model.User; // Ensure this matches the actual package of the User class
-import com.example.demo.model.Vote;
 import com.example.demo.repository.UserRepository; // Ensure this matches the actual package of the UserRepository interface
-import com.example.demo.repository.VoteRepository;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -74,8 +72,7 @@ public class PitchController {
     @Autowired
     private PitchRepository pitchRepository;
 
-    @Autowired
-    private VoteRepository voteRepository;
+    // Removed unused VoteRepository field
     
     @GetMapping("/all")
     public ResponseEntity<List<PitchResponseDTO>> getAllPitches() {

@@ -95,7 +95,7 @@ async function fetchPitchRequests() {
         const card = document.createElement('div');
         card.classList.add('pitch-request-card');
         let statusClass = '';
-        if (pitch.status === 'APPROVED') {
+        if (pitch.status === 'ACCEPTED') {
             statusClass = 'status-approved';
         } else if (pitch.status === 'REJECTED') {
             statusClass = 'status-rejected';

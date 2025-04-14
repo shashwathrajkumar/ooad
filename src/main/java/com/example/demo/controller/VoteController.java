@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.VoteRequest;
 import com.example.demo.model.Vote;
-import com.example.demo.repository.PitchRepository;
 import com.example.demo.repository.VoteRepository;
-import com.example.demo.service.PitchService;
+// Ensure the correct package path for PitchService
+import com.example.demo.service.PitchService; // Ensure this matches the actual package path of PitchService
 
 @RestController
 public class VoteController {
@@ -20,7 +20,7 @@ public class VoteController {
     private VoteRepository voteRepository;
 
     @Autowired
-    private PitchService pitchService;
+    private PitchService pitchService; // Ensure PitchService is defined and annotated with @Service in its class
 
     @PostMapping("/api/vote")
     public ResponseEntity<?> castVote(@RequestBody VoteRequest voteRequest) {
@@ -31,6 +31,7 @@ public class VoteController {
         vote.setCreatedAt(LocalDateTime.now());
 
         pitchService.processVoteAndCheckMajority(voteRequest.getPitchId(), voteRequest.getUserId(), voteRequest.getVote());
+        voteRepository.save(vote); // Save the vote to the database
         return ResponseEntity.ok().build();
     }
 }
