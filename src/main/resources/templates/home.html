@@ -13,6 +13,7 @@
         <div class="nav-links">
             <a href="/home" class="nav-link">Home</a>
             <a th:href="@{'/team/dashboard?teamId=' + ${teamId}}" class="nav-link">Dashboard</a>
+            <a href="/leaderboard" class="nav-link">Leaderboard</a>
         </div>
         <div class="user-profile" onclick="toggleProfileMenu()">
             <span th:text="${username}">Username</span>

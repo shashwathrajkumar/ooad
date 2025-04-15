@@ -25,4 +25,12 @@ public class UserService {
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+
+    public long getTeamIdByUsername(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user != null && user.getTeam() != null) {
+            return user.getTeam().getId();
+        }
+        throw new RuntimeException("Team not found for user: " + username);
+    }
 }

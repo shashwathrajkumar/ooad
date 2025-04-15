@@ -1,0 +1,31 @@
+@import url('home.css'); /* If shared styles like navbar are already in home.css */
+
+.dashboard h2 {
+    margin-top: 0;
+    color: #1e3a8a;
+}
+
+.stock-table th {
+    background-color: #1f2937;
+    color: white;
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.stock-table td {
+    background-color: white;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    font-weight: 500;
+}
+
+.stock-table td:nth-child(3) {
+    color: #18a558;
+    font-weight: bold;
+}
+
+.nav-link.active {
+    color: #00d1b2;
+    font-weight: bold;
+}
