@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 
+
+//main user service
 @Service
 public class UserService {
 
