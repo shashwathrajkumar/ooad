@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+//main stock class
 @Entity
 @Table(name = "stock")
 public class Stock {

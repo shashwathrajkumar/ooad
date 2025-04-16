@@ -7,6 +7,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+
+//main vote class
 @Entity
 @Table(name = "vote")
 public class Vote {
