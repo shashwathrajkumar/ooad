@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-
+//main PitchRepo
 @Repository
 public interface PitchRepository extends JpaRepository<Pitch, Long> {
     List<Pitch> findAllByOrderByCreatedAtDesc();
